@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "jetpack-compose-uis"
-include ':app'
+rootProject.name = "compose-uis"
+include(":app")
