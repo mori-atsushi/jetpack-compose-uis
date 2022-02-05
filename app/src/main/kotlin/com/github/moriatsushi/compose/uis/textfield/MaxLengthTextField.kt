@@ -40,7 +40,9 @@ fun MaxLengthTextField(
     val onTextFieldValueChange = { text: TextFieldValue ->
         val isComposing = text.composition != null
         val nextText = text.text.take(maxLength)
-        onValueChange(nextText)
+        if (value != nextText) {
+            onValueChange(nextText)
+        }
         textFieldValueState = if (!isComposing) {
             text.copy(text = nextText)
         } else {
