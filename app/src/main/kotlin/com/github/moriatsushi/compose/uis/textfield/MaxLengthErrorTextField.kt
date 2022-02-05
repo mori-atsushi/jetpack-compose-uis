@@ -18,7 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 /**
- * Text field with character max limit.
+ * [TextField] with character max limit.
  * Characters that exceed the max limit are displayed in red.
  * If you want to prevent input exceeding the limit of characters,
  * please see [MaxLengthTextField] or [MaxLengthVisualTextField].

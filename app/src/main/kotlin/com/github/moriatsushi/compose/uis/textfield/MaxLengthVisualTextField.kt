@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import kotlin.math.min
 
 /**
- * Text field with character max limit.
+ * [TextField] with character max limit.
  * It is displayed with the exact number of characters even during predictive conversion.
  * if you want to display all the characters during predictive conversion,
  * see [MaxLengthTextField].

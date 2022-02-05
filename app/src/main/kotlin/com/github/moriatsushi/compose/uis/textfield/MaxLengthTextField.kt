@@ -13,7 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 /**
- * Text field with character max limit.
+ * [TextField] with character max limit.
  * It may be displayed beyond the character limit during predictive conversion.
  * If you want to display the exact number of characters,
  * see [MaxLengthVisualTextField].
