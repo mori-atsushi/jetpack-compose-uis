@@ -1,6 +1,7 @@
 package com.github.moriatsushi.compose.uis
 
 import android.app.Application
+import com.github.moriatsushi.compose.uis.textfield.textFieldGroup
 import jp.co.cyberagent.katalog.ext.pagesaver.PageSaverExt
 import jp.co.cyberagent.katalog.registerKatalog
 
@@ -12,6 +13,7 @@ class App : Application() {
             title = "Jetpack Compose UIs",
             extensions = listOf(PageSaverExt()),
         ) {
+            group(textFieldGroup)
         }
     }
 }
