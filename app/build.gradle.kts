@@ -19,7 +19,10 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     buildFeatures {
@@ -53,6 +56,7 @@ dependencies {
     implementation("androidx.compose.material:material:1.1.0-rc03")
 
     implementation("jp.co.cyberagent.katalog:katalog:1.1.0-beta05")
+    implementation("jp.co.cyberagent.katalog:katalog-ext-pagesaver:1.1.0-beta05")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
