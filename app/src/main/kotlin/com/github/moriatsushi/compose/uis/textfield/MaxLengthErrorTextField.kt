@@ -44,7 +44,8 @@ fun MaxLengthErrorTextField(
 }
 
 class MaxLengthErrorTransformation(
-    private val maxLength: Int
+    private val maxLength: Int,
+    private val errorStyle: SpanStyle = SpanStyle(color = Color.Red)
 ) : VisualTransformation {
     override fun filter(text: AnnotatedString): TransformedText {
         return TransformedText(
@@ -60,12 +61,10 @@ class MaxLengthErrorTransformation(
         )
     }
 
-    private val errorStyle = SpanStyle(color = Color.Red)
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is MaxLengthErrorTransformation) return false
-        if (maxLength != other.maxLength) return false
+        if (maxLength != other.maxLength || errorStyle != other.errorStyle) return false
         return true
     }
 
