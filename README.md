@@ -2,7 +2,14 @@
 This is a collection of some UIs using [Jetpack Compose](https://developer.android.com/jetpack/compose).
 It is built using [Katalog](https://github.com/cyberagent-zemi/katalog).
 
-## TextField
+## [Indication](https://developer.android.com/reference/kotlin/androidx/compose/foundation/Indication)
+### [ScaleIndication](https://github.com/Mori-Atsushi/jetpack-compose-uis/blob/main/app/src/main/kotlin/com/github/moriatsushi/compose/uis/indication/ScaleIndication.kt)
+
+It is an Indication to scale the component display at the time of pressed.
+
+https://user-images.githubusercontent.com/13435109/152808326-bd5432be-2c0e-4136-a027-3cb718b09445.mp4
+
+## [TextField](https://developer.android.com/reference/kotlin/androidx/compose/material/package-summary?hl=ja#TextField(kotlin.String,kotlin.Function1,androidx.compose.ui.Modifier,kotlin.Boolean,kotlin.Boolean,androidx.compose.ui.text.TextStyle,kotlin.Function0,kotlin.Function0,kotlin.Function0,kotlin.Function0,kotlin.Boolean,androidx.compose.ui.text.input.VisualTransformation,androidx.compose.foundation.text.KeyboardOptions,androidx.compose.foundation.text.KeyboardActions,kotlin.Boolean,kotlin.Int,androidx.compose.foundation.interaction.MutableInteractionSource,androidx.compose.ui.graphics.Shape,androidx.compose.material.TextFieldColors))
 ### [MaxLengthTextField](https://github.com/Mori-Atsushi/jetpack-compose-uis/blob/main/app/src/main/kotlin/com/github/moriatsushi/compose/uis/textfield/MaxLengthTextField.kt)
 
 TextField with character max limit.
