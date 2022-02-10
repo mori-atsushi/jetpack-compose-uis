@@ -56,16 +56,24 @@ private class ScaleIndication(
 ) : Indication {
     @Composable
     override fun rememberUpdatedInstance(interactionSource: InteractionSource): IndicationInstance {
-        val isPressed by interactionSource.collectIsPressedAsState()
-        val isSmall by remember {
-            snapshotFlow { isPressed }
-                .conflate()
-                .transform {
-                    emit(it)
-                    // delay to animate even with a short tap
-                    if (it) delay(minDuration)
+        var isSmall by remember { mutableStateOf(false) }
+        LaunchedEffect(interactionSource){
+            interactionSource.interactions.collect { interaction ->
+                when(interaction){
+                    is PressInteraction -> {
+                        when(interaction) {
+                            is PressInteraction.Press -> {
+                                isSmall = true
+                                delay(minDuration)
+                            }
+                            else -> {
+                                isSmall = false
+                            }
+                        }
+                    }
                 }
-        }.collectAsState(false)
+            }
+        }
         val scale = animateFloatAsState(
             targetValue = if (isSmall) pressedScale else 1.0F,
             animationSpec = animationSpec
