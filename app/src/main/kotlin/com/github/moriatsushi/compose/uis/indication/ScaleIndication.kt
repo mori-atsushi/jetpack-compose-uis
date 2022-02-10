@@ -21,6 +21,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.*
 
 /**
  * Creates and remembers a [ScaleIndication] that is an [Indication]
@@ -30,6 +32,8 @@ import androidx.compose.ui.unit.sp
  * @param pressedScale scale value while pressed.
  * @Param animationSpec specifies the [AnimationSpec] for scale animation.
  *  The default is a [spring] with bouncy.
+ * @param minDuration minimum duration of animation when tapped.
+ *  It is used to display the animation even with a short tap.
  */
 @Composable
 fun rememberScaleIndication(
@@ -37,22 +41,33 @@ fun rememberScaleIndication(
     animationSpec: AnimationSpec<Float> = spring(
         dampingRatio = Spring.DampingRatioMediumBouncy,
         stiffness = Spring.StiffnessLow,
-    )
+    ),
+    minDuration: Long = 150
 ): Indication {
-    return remember(pressedScale, animationSpec) {
-        ScaleIndication(pressedScale, animationSpec)
+    return remember(pressedScale, animationSpec, minDuration) {
+        ScaleIndication(pressedScale, animationSpec, minDuration)
     }
 }
 
 private class ScaleIndication(
     private val pressedScale: Float,
-    private val animationSpec: AnimationSpec<Float>
+    private val animationSpec: AnimationSpec<Float>,
+    private val minDuration: Long
 ) : Indication {
     @Composable
     override fun rememberUpdatedInstance(interactionSource: InteractionSource): IndicationInstance {
         val isPressed by interactionSource.collectIsPressedAsState()
+        val isSmall by remember {
+            snapshotFlow { isPressed }
+                .conflate()
+                .transform {
+                    emit(it)
+                    // delay to animate even with a short tap
+                    if (it) delay(minDuration)
+                }
+        }.collectAsState(false)
         val scale = animateFloatAsState(
-            targetValue = if (isPressed) pressedScale else 1.0F,
+            targetValue = if (isSmall) pressedScale else 1.0F,
             animationSpec = animationSpec
         )
         return remember(scale) {
