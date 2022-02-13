@@ -1,6 +1,5 @@
 package com.github.moriatsushi.compose.uis.indication
 
-import android.util.Log
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Indication
 import androidx.compose.foundation.IndicationInstance
