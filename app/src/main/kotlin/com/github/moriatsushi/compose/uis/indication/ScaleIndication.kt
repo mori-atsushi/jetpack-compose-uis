@@ -1,5 +1,6 @@
 package com.github.moriatsushi.compose.uis.indication
 
+import android.util.Log
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Indication
 import androidx.compose.foundation.IndicationInstance
@@ -7,7 +8,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
@@ -21,7 +22,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 
 /**
@@ -56,33 +58,58 @@ private class ScaleIndication(
 ) : Indication {
     @Composable
     override fun rememberUpdatedInstance(interactionSource: InteractionSource): IndicationInstance {
-        val isPressed by interactionSource.collectIsPressedAsState()
-        val isSmall by remember {
-            snapshotFlow { isPressed }
-                .conflate()
-                .transform {
-                    emit(it)
-                    // delay to animate even with a short tap
-                    if (it) delay(minDuration)
-                }
-        }.collectAsState(false)
-        val scale = animateFloatAsState(
-            targetValue = if (isSmall) pressedScale else 1.0F,
-            animationSpec = animationSpec
-        )
-        return remember(scale) {
-            ScaleIndicationInstance(scale)
+        val instance = remember(pressedScale, animationSpec, minDuration) {
+            ScaleIndicationInstance(pressedScale, animationSpec, minDuration)
         }
+        LaunchedEffect(interactionSource) {
+            interactionSource.interactions.collect {
+                when (it) {
+                    is PressInteraction.Press -> {
+                        instance.start(this)
+                    }
+                    is PressInteraction.Release,
+                    is PressInteraction.Cancel -> {
+                        instance.stop()
+                    }
+                }
+            }
+        }
+        return instance
     }
 }
 
 private class ScaleIndicationInstance(
-    private val scale: State<Float>
+    private val pressedScale: Float,
+    private val animationSpec: AnimationSpec<Float>,
+    private val minDuration: Long
 ) : IndicationInstance {
+    companion object {
+        private const val initialScale = 1.0F
+    }
+
+    private var animatable = Animatable(initialScale)
+    private var finishEvent = Channel<Unit>(Channel.CONFLATED)
+
+    fun start(scope: CoroutineScope) {
+        scope.launch {
+            animatable.animateTo(pressedScale, animationSpec)
+        }
+        scope.launch {
+            delay(minDuration)
+            finishEvent.receive()
+            animatable.animateTo(initialScale, animationSpec)
+        }
+    }
+
+    fun stop() {
+        finishEvent.trySend(Unit)
+    }
+
     override fun ContentDrawScope.drawIndication() {
-        if (scale.value != 1.0F) {
+        val scale = animatable.value
+        if (scale != initialScale) {
             drawContext.transform.apply {
-                scale(scale.value)
+                scale(scale)
             }
         }
         drawContent()
