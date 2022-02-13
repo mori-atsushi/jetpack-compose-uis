@@ -52,10 +52,10 @@ dependencies {
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
 
-    implementation("androidx.compose.ui:ui:1.1.0-rc03")
-    implementation("androidx.compose.ui:ui-tooling:1.1.0-rc03")
-    implementation("androidx.compose.foundation:foundation:1.1.0-rc03")
-    implementation("androidx.compose.material:material:1.1.0-rc03")
+    implementation("androidx.compose.ui:ui:1.1.0")
+    implementation("androidx.compose.ui:ui-tooling:1.1.0")
+    implementation("androidx.compose.foundation:foundation:1.1.0")
+    implementation("androidx.compose.material:material:1.1.0")
 
     implementation("jp.co.cyberagent.katalog:katalog:1.1.0-beta05")
     implementation("jp.co.cyberagent.katalog:katalog-ext-pagesaver:1.1.0-beta05")
