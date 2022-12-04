@@ -10,6 +10,10 @@ import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 
+/**
+ * Layout composable sample.
+ * Place a [button] on the far right and a [title] in the center.
+ */
 @Composable
 fun TitleLayout(
     title: @Composable () -> Unit,

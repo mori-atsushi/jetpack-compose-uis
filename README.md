@@ -29,3 +29,10 @@ TextField with character max limit.
 Characters that exceed the max limit are displayed in red.
 
 https://user-images.githubusercontent.com/13435109/152644787-0f093f18-194d-4231-b3db-4417b24a98e0.mp4
+
+## Layout
+### [TitleLayout](https://github.com/Mori-Atsushi/jetpack-compose-uis/blob/main/app/src/main/kotlin/com/github/moriatsushi/compose/uis/layout/TitleLayout.kt)
+Layout composable sample.
+Place a button on the far right and a title in the center.
+
+<img src="https://user-images.githubusercontent.com/13435109/205494612-ee2120af-4159-4d4d-aa8d-14d34c1810ff.png" width="320px" />
